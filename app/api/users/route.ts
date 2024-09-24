@@ -9,7 +9,10 @@ export async function GET(): Promise<NextResponse> {
         const user = await prisma.user.findUnique({
             where: {
                 // will be replaced with logged user id
-                id: 'b7f2c4a4-9638-406f-b1b2-321d8df69fbb',
+                id: 'dca160be-cc58-40d4-9458-21e4a04c6244',
+            },
+            include: {
+                license: true,
             },
         })
         return NextResponse.json({ user })

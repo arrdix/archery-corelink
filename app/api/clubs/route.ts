@@ -11,6 +11,9 @@ export async function GET(): Promise<NextResponse> {
                 // will be replaced with logged user id
                 presidentId: 'dca160be-cc58-40d4-9458-21e4a04c6244',
             },
+            include: {
+                members: true,
+            },
         })
         return NextResponse.json({ club })
     } catch (error) {

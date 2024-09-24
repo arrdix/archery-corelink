@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { roleEntity } from '@/app/types/role.entity'
 import { licenseEntity } from '@/app/types/license.entity'
+import { clubEntity } from '@/app/types/club.entity'
 
 export const userEntity = z.object({
     id: z.string(),
@@ -12,7 +13,6 @@ export const userEntity = z.object({
     dateOfBirth: z.date(),
     photo: z.string(),
     clubId: z.string(),
-    license: licenseEntity,
-    presidentOf: z.string().nullable(),
+    license: licenseEntity.optional(),
 })
 export type UserEntity = z.infer<typeof userEntity>
