@@ -1,17 +1,5 @@
-import { roleEntity } from '@/app/types/role.entity'
+import { registerDto } from '@/app/dto/auth.dto'
 import { z } from 'zod'
 
-export const createUserDto = z.object({
-    role: roleEntity,
-    phoneNumber: z.string(),
-    password: z.string(),
-    email: z.string(),
-    name: z.string(),
-    dateOfBirth: z.string().transform((date) => new Date(date)),
-    photo: z.string(),
-    clubId: z.string().optional(),
-})
-export type CreateUserDto = z.infer<typeof createUserDto>
-
-export const updateUserDto = createUserDto.partial()
+export const updateUserDto = registerDto.partial()
 export type UpdateUserDto = z.infer<typeof updateUserDto>

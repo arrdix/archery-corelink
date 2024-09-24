@@ -1,10 +1,10 @@
-import { createUserDto, CreateUserDto, updateUserDto, UpdateUserDto } from '@/app/dto/user.dto'
+import { updateUserDto, UpdateUserDto } from '@/app/dto/user.dto'
 import prisma from '@/app/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -22,30 +22,7 @@ export async function GET() {
     }
 }
 
-export async function POST(request: Request) {
-    try {
-        const dto: CreateUserDto = await request.json()
-        const parsedDto = createUserDto.parse(dto)
-
-        const newUser = await prisma.user.create({
-            data: parsedDto,
-        })
-
-        return NextResponse.json({ message: `User with ID ${newUser.id} has been created.` })
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            return NextResponse.json({ error: error.errors }, { status: 400 })
-        }
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            return NextResponse.json({ error: error.message }, { status: 400 })
-        }
-
-        return NextResponse.json({ error: 'Interval Server Error' }, { status: 400 })
-    }
-}
-
-export async function PATCH(request: Request) {
+export async function PATCH(request: Request): Promise<NextResponse> {
     try {
         const dto: UpdateUserDto = await request.json()
         const parsedDto = updateUserDto.parse(dto)
@@ -72,7 +49,7 @@ export async function PATCH(request: Request) {
     }
 }
 
-export async function DELETE() {
+export async function DELETE(): Promise<NextResponse> {
     try {
         const deletedUser = await prisma.user.delete({
             where: {
