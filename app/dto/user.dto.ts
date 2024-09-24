@@ -12,3 +12,6 @@ export const createUserDto = z.object({
     clubId: z.string().optional(),
 })
 export type CreateUserDto = z.infer<typeof createUserDto>
+
+export const updateUserDto = createUserDto.partial()
+export type UpdateUserDto = z.infer<typeof updateUserDto>
