@@ -14,7 +14,7 @@ export async function GET(): Promise<NextResponse> {
         })
         return NextResponse.json({ club })
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch clubs' }, { status: 500 })
+        return NextResponse.json({ error: 'Interval Server Error' }, { status: 500 })
     }
 }
 
@@ -27,7 +27,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `User with ID ${newClub.id} has been created.` })
+        return NextResponse.json({ message: `Club with ID ${newClub.id} has been created.` })
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -54,7 +54,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `User with ID ${updatedClub.id} has been updated.` })
+        return NextResponse.json({ message: `Club with ID ${updatedClub.id} has been updated.` })
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -76,7 +76,7 @@ export async function DELETE(): Promise<NextResponse> {
             },
         })
 
-        return NextResponse.json({ message: `User with ID ${deletedClub.id} has been updated.` })
+        return NextResponse.json({ message: `Club with ID ${deletedClub.id} has been updated.` })
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })

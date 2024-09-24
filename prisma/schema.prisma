@@ -53,14 +53,14 @@ model Club {
 }
 
 model License {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   no         Int
   name       String
   level      String
   publisher  String
-  startDate  String
+  startDate  DateTime
   attachment String
-  userId     String @unique
+  userId     String   @unique
 
   user User @relation(fields: [userId], references: [id])
 
