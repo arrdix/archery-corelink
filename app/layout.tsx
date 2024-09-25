@@ -4,6 +4,8 @@ import { Menu } from 'lucide-react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import { Providers } from '@/app/providers'
+
 const montserrat = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -18,13 +20,15 @@ export default function RootLayout({
 }>): JSX.Element {
     return (
         <html lang="en">
-            <body className={montserrat.className}>
-                <div className="flex justify-between p-6 shadow">
-                    <p className="font-semibold">Archery</p>
-                    <Menu />
-                </div>
-                {children}
-            </body>
+            <Providers>
+                <body className={montserrat.className}>
+                    <div className="flex justify-between p-6 shadow">
+                        <p className="font-semibold">Archery</p>
+                        <Menu />
+                    </div>
+                    {children}
+                </body>
+            </Providers>
         </html>
     )
 }
