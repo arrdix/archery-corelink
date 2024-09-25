@@ -1,8 +1,9 @@
-import { updateUserDto, UpdateUserDto } from '@/app/dto/user.dto'
-import prisma from '@/app/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+
+import { type UpdateUserDto, updateUserDto } from '@/app/dto/user.dto'
+import prisma from '@/app/lib/prisma'
 
 export async function GET(): Promise<NextResponse> {
     try {
@@ -15,7 +16,7 @@ export async function GET(): Promise<NextResponse> {
                 license: true,
             },
         })
-        return NextResponse.json({ user })
+        return NextResponse.json(user)
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json({ error: error.message }, { status: 400 })
@@ -38,7 +39,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `User with ID ${updatedUser.id} has been updated.` })
+        return NextResponse.json(`User with ID ${updatedUser.id} has been updated.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -61,7 +62,7 @@ export async function DELETE(): Promise<NextResponse> {
             },
         })
 
-        return NextResponse.json({ message: `User with ID ${deletedUser.id} has been deleted.` })
+        return NextResponse.json(`User with ID ${deletedUser.id} has been deleted.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })

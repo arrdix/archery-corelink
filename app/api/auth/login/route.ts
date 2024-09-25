@@ -1,10 +1,11 @@
+import { Prisma } from '@prisma/client'
+import { sign } from 'jsonwebtoken'
+import { NextResponse } from 'next/server'
+import { z } from 'zod'
+
 import { loginDto } from '@/app/dto/auth.dto'
 import prisma from '@/app/lib/prisma'
 import { comparePassword } from '@/app/utils/password-hasher'
-import { Prisma } from '@prisma/client'
-import { NextResponse } from 'next/server'
-import { z } from 'zod'
-import jwt from 'jsonwebtoken'
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -27,7 +28,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         if (!secret) throw new Error('JWT Secret not found.')
 
-        const token = jwt.sign(
+        const token = sign(
             {
                 data: {
                     id: requestedUser.id,
@@ -40,7 +41,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             { expiresIn: '12h' }
         )
 
-        return NextResponse.json({ token })
+        return NextResponse.json(token)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })

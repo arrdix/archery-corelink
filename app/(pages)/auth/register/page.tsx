@@ -39,13 +39,12 @@ export default function Page(): JSX.Element {
     })
 
     async function onSubmit(values: z.infer<typeof registerSchema>): Promise<void> {
-        const res = await mutateAsync({
+        await mutateAsync({
             ...values,
             // will be replaced with real date later
             dateOfBirth: new Date(),
             photo: 'exaample.jpg',
         })
-        console.log(res)
     }
     return (
         <div className="flex flex-col gap-4 p-14">

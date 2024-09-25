@@ -1,9 +1,9 @@
-import { registerDto, RegisterDto } from '@/app/dto/auth.dto'
-import prisma from '@/app/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import bcrypt from 'bcrypt'
+
+import { type RegisterDto, registerDto } from '@/app/dto/auth.dto'
+import prisma from '@/app/lib/prisma'
 import { hashPassword } from '@/app/utils/password-hasher'
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -18,7 +18,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             },
         })
 
-        return NextResponse.json({ message: `User with ID ${newUser.id} has been created.` })
+        return NextResponse.json(`User with ID ${newUser.id} has been created.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })

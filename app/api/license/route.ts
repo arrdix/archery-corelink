@@ -1,13 +1,14 @@
-import {
-    CreateLicenseDto,
-    createLicenseDto,
-    updateLicenseDto,
-    UpdateLicenseDto,
-} from '@/app/dto/license.dto'
-import prisma from '@/app/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+
+import {
+    type CreateLicenseDto,
+    createLicenseDto,
+    type UpdateLicenseDto,
+    updateLicenseDto,
+} from '@/app/dto/license.dto'
+import prisma from '@/app/lib/prisma'
 
 export async function GET(): Promise<NextResponse> {
     try {
@@ -17,7 +18,7 @@ export async function GET(): Promise<NextResponse> {
                 userId: 'dca160be-cc58-40d4-9458-21e4a04c6244',
             },
         })
-        return NextResponse.json({ license })
+        return NextResponse.json(license)
     } catch (error) {
         return NextResponse.json({ error: 'Interval Server Error' }, { status: 500 })
     }
@@ -32,7 +33,7 @@ export async function POST(request: NextResponse): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `License with ID ${newLicense.id} has been created.` })
+        return NextResponse.json(`License with ID ${newLicense.id} has been created.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -59,9 +60,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({
-            message: `License with ID ${updatedLicense.id} has been updated.`,
-        })
+        return NextResponse.json(`License with ID ${updatedLicense.id} has been updated.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -84,9 +83,7 @@ export async function DELETE(): Promise<NextResponse> {
             },
         })
 
-        return NextResponse.json({
-            message: `License with ID ${deletedLicense.id} has been updated.`,
-        })
+        return NextResponse.json(`License with ID ${deletedLicense.id} has been updated.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })

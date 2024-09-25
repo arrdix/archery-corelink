@@ -1,8 +1,14 @@
-import { createClubDto, CreateClubDto, updateClubDto, UpdateClubDto } from '@/app/dto/club.dto'
-import prisma from '@/app/lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+
+import {
+    type CreateClubDto,
+    createClubDto,
+    type UpdateClubDto,
+    updateClubDto,
+} from '@/app/dto/club.dto'
+import prisma from '@/app/lib/prisma'
 
 export async function GET(): Promise<NextResponse> {
     try {
@@ -15,7 +21,7 @@ export async function GET(): Promise<NextResponse> {
                 members: true,
             },
         })
-        return NextResponse.json({ club })
+        return NextResponse.json(club)
     } catch (error) {
         return NextResponse.json({ error: 'Interval Server Error' }, { status: 500 })
     }
@@ -30,7 +36,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `Club with ID ${newClub.id} has been created.` })
+        return NextResponse.json(`Club with ID ${newClub.id} has been created.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -57,7 +63,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
             data: parsedDto,
         })
 
-        return NextResponse.json({ message: `Club with ID ${updatedClub.id} has been updated.` })
+        return NextResponse.json(`Club with ID ${updatedClub.id} has been updated.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
@@ -79,7 +85,7 @@ export async function DELETE(): Promise<NextResponse> {
             },
         })
 
-        return NextResponse.json({ message: `Club with ID ${deletedClub.id} has been updated.` })
+        return NextResponse.json(`Club with ID ${deletedClub.id} has been updated.`)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
