@@ -64,5 +64,7 @@ module.exports = {
         '@typescript-eslint/no-misused-promises': 'off',
         '@typescript-eslint/no-non-null-assertion': 'warn',
         '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
+        '@typescript-eslint/no-confusing-void-expression': 'off',
+        'no-console': 'warn',
     },
 }

@@ -19,9 +19,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={montserrat.className}>
-                <div className="flex justify-between bg-accent p-6">
-                    <p className="text-primary-foreground font-semibold">Archery</p>
-                    <Menu className="text-primary-foreground" />
+                <div className="flex justify-between p-6 shadow">
+                    <p className="font-semibold">Archery</p>
+                    <Menu />
                 </div>
                 {children}
             </body>
