@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { loginSchema } from '@/app/schemas/login'
+import { loginSchema } from '@/app/schemas/auth'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -76,6 +76,7 @@ export default function Page(): JSX.Element {
                             </FormItem>
                         )}
                     />
+
                     <div className="flex justify-end w-full">
                         <Link className="text-sm" href="/auth/forgot">
                             Forgot password?
