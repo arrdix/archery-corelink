@@ -32,7 +32,10 @@ export function RoleForm(): JSX.Element {
 
     const form = useForm<z.infer<typeof roleSchema>>({
         resolver: zodResolver(roleSchema),
-        defaultValues: roleData,
+        defaultValues: {
+            role: 'ATHLETE',
+            clubId: undefined,
+        },
     })
 
     function onSubmit(values: z.infer<typeof roleSchema>): void {
@@ -51,10 +54,18 @@ export function RoleForm(): JSX.Element {
                         <FormItem>
                             <FormControl>
                                 <Select
+                                    value={roleData?.role}
                                     onValueChange={(value) => {
                                         field.onChange(value)
 
-                                        if (value === 'PRESIDENT') return setRenderSelectClub(false)
+                                        if (value === 'PRESIDENT') {
+                                            addRoleData({
+                                                role: 'PRESIDENT',
+                                                clubId: undefined,
+                                            })
+
+                                            return setRenderSelectClub(false)
+                                        }
                                         return setRenderSelectClub(true)
                                     }}
                                 >

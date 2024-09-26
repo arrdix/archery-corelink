@@ -12,20 +12,10 @@ export const loginSchema = z.object({
     password: z.string().min(8, { message: 'Password must be at least 8 chars.' }),
 })
 
-export const roleSchema = z
-    .object({
-        role: z.union([roleEntity, z.undefined()]),
-        clubId: z.string().optional(),
-    })
-    .refine(
-        (data) => {
-            return data.role !== undefined
-        },
-        {
-            message: 'Please pick a role.',
-            path: ['role'],
-        }
-    )
+export const roleSchema = z.object({
+    role: roleEntity,
+    clubId: z.string().optional(),
+})
 export type RoleSchema = z.infer<typeof roleSchema>
 
 export const personalSchema = z

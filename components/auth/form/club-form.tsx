@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { type z } from 'zod'
 
+import { useUserRegister } from '@/app/network/auth/hooks/user-register'
+import { useCreateClub } from '@/app/network/club/hooks/create-club'
 import { clubSchema } from '@/app/schemas/club'
 import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
@@ -13,20 +15,40 @@ import { Input } from '@/components/ui/input'
 
 export function ClubForm(): JSX.Element {
     const { roleData, personalData, clubData, addClubData } = useRegisterStore()
+    const { mutateAsync: mutateUser } = useUserRegister()
+    const { mutateAsync: mutateClub } = useCreateClub()
     const router = useRouter()
 
     const form = useForm<z.infer<typeof clubSchema>>({
         resolver: zodResolver(clubSchema),
-        defaultValues: clubData,
+        defaultValues: {
+            name: '',
+            logo: '',
+            city: '',
+            province: '',
+            presidentId: '',
+        },
     })
 
-    function onSubmit(values: z.infer<typeof clubSchema>): void {
+    async function onSubmit(values: z.infer<typeof clubSchema>): Promise<void> {
         addClubData(values)
 
-        console.log({ ...roleData, ...personalData })
+        if (roleData && personalData && clubData) {
+            const newUser = await mutateUser({
+                ...roleData,
+                ...personalData,
+                dateOfBirth: new Date(),
+                photo: 'example.jpg',
+            })
+
+            await mutateClub({
+                ...clubData,
+                presidentId: newUser.id,
+            })
+        }
     }
 
-    if (!roleData.role) {
+    if (!roleData) {
         router.push('/auth/register/role')
     }
 

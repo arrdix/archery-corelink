@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
+import { useUserRegister } from '@/app/network/auth/hooks/user-register'
 import { personalSchema } from '@/app/schemas/auth'
 import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
@@ -18,24 +19,41 @@ export function PersonalForm(): JSX.Element {
     const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
 
     const { roleData, personalData, addPersonalData } = useRegisterStore()
+    const { mutateAsync: mutateUser } = useUserRegister()
     const router = useRouter()
 
     const form = useForm<z.infer<typeof personalSchema>>({
         resolver: zodResolver(personalSchema),
-        defaultValues: personalData,
+        defaultValues: {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            dateOfBirth: '',
+            password: '',
+            passwordConfirm: '',
+        },
     })
 
-    function onSubmit(values: z.infer<typeof personalSchema>): void {
+    async function onSubmit(values: z.infer<typeof personalSchema>): Promise<void> {
         addPersonalData(values)
 
-        if (roleData.role === 'PRESIDENT') {
+        if (roleData?.role === 'PRESIDENT') {
             return router.push('/auth/register/club')
         }
 
-        return router.push('/auth/register/license')
+        if (personalData && roleData) {
+            const newUser = await mutateUser({
+                ...roleData,
+                ...personalData,
+                dateOfBirth: new Date(),
+                photo: 'example.jpg',
+            })
+
+            return router.push('/auth/register/license')
+        }
     }
 
-    if (!roleData.role) {
+    if (!roleData) {
         router.push('/auth/register/role')
     }
 

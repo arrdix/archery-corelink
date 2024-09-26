@@ -5,9 +5,9 @@ import { type ClubSchema } from '@/app/schemas/club'
 import { type LicenseSchema } from '@/app/schemas/license'
 
 interface RegisterStore {
-    roleData: RoleSchema
-    personalData: PersonalSchema
-    clubData: ClubSchema
+    roleData: RoleSchema | null
+    personalData: PersonalSchema | null
+    clubData: ClubSchema | null
     licenseData: LicenseSchema
     addRoleData: (data: RoleSchema) => void
     addPersonalData: (data: PersonalSchema) => void
@@ -16,25 +16,9 @@ interface RegisterStore {
 }
 
 export const useRegisterStore = create<RegisterStore>((set) => ({
-    roleData: {
-        role: undefined,
-        clubId: '',
-    },
-    personalData: {
-        name: '',
-        email: '',
-        phoneNumber: '',
-        dateOfBirth: '',
-        password: '',
-        passwordConfirm: '',
-    },
-    clubData: {
-        name: '',
-        logo: '',
-        city: '',
-        province: '',
-        presidentId: '',
-    },
+    roleData: null,
+    personalData: null,
+    clubData: null,
     licenseData: {
         isOwn: false,
         no: undefined,

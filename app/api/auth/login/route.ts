@@ -1,11 +1,12 @@
 import { Prisma } from '@prisma/client'
-import { sign } from 'jsonwebtoken'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { loginDto } from '@/app/dto/auth.dto'
 import prisma from '@/app/lib/prisma'
+import { type UserEntity } from '@/app/types/user.entity'
 import { comparePassword } from '@/app/utils/password-hasher'
+import { generateToken } from '@/app/utils/token-generator'
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -24,22 +25,12 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         if (!isPasswordMatch) return NextResponse.json({ error: 'Password is incorrect.' })
 
-        const secret = process.env.JWT_SECRET
+        const user: UserEntity = requestedUser
 
-        if (!secret) throw new Error('JWT Secret not found.')
+        delete user.password
+        delete user.dateOfBirth
 
-        const token = sign(
-            {
-                data: {
-                    id: requestedUser.id,
-                    name: requestedUser.name,
-                    email: requestedUser.email,
-                    photo: requestedUser.photo,
-                },
-            },
-            secret,
-            { expiresIn: '12h' }
-        )
+        const token = generateToken(user)
 
         return NextResponse.json(token)
     } catch (error) {
