@@ -87,7 +87,7 @@ export default function Page(): JSX.Element {
                     </Button>
                     <p className="text-sm">
                         Don&apos;t have an account?
-                        <Link className="text-accent" href="/auth/register">
+                        <Link className="text-accent" href="/auth/register/role">
                             {' '}
                             Create one.
                         </Link>

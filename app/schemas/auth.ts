@@ -12,9 +12,24 @@ export const loginSchema = z.object({
     password: z.string().min(8, { message: 'Password must be at least 8 chars.' }),
 })
 
-export const registerSchema = z
+export const roleSchema = z
     .object({
-        role: roleEntity,
+        role: z.union([roleEntity, z.undefined()]),
+        clubId: z.string().optional(),
+    })
+    .refine(
+        (data) => {
+            return data.role !== undefined
+        },
+        {
+            message: 'Please pick a role.',
+            path: ['role'],
+        }
+    )
+export type RoleSchema = z.infer<typeof roleSchema>
+
+export const personalSchema = z
+    .object({
         name: z.string().min(1, {
             message: 'Name must not be empty.',
         }),
@@ -33,3 +48,4 @@ export const registerSchema = z
             path: ['passwordConfirm'],
         }
     )
+export type PersonalSchema = z.infer<typeof personalSchema>

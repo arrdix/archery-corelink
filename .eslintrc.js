@@ -66,5 +66,6 @@ module.exports = {
         '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
         '@typescript-eslint/no-confusing-void-expression': 'off',
         'no-console': 'warn',
+        'react/jsx-no-leaked-render': 'off',
     },
 }
