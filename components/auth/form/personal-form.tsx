@@ -2,12 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import { CalendarIcon, Eye, EyeOff } from 'lucide-react'
+import { CalendarIcon, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
+import { usePhoneValidation } from '@/app/network/auth/hooks/validate-phone'
 import { personalSchema } from '@/app/schemas/auth'
 import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
@@ -18,12 +19,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 
 export function PersonalForm(): JSX.Element {
-    const [date, setDate] = useState<Date | undefined>(undefined)
+    const { roleData, personalData, addPersonalData } = useRegisterStore()
+    const { mutateAsync: mutatePhone, isPending } = usePhoneValidation()
+    const router = useRouter()
+
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
-
-    const { roleData, personalData, addPersonalData } = useRegisterStore()
-    const router = useRouter()
+    const [date, setDate] = useState<Date | undefined>(personalData?.dateOfBirth)
 
     const form = useForm<z.infer<typeof personalSchema>>({
         resolver: zodResolver(personalSchema),
@@ -31,14 +33,20 @@ export function PersonalForm(): JSX.Element {
             name: personalData?.name ?? '',
             email: personalData?.email ?? '',
             phoneNumber: personalData?.phoneNumber ?? '',
-            dateOfBirth: personalData?.dateOfBirth ?? new Date(),
+            dateOfBirth: personalData?.dateOfBirth ?? new Date(''),
             password: personalData?.password ?? '',
             passwordConfirm: personalData?.passwordConfirm ?? '',
         },
     })
 
-    function onSubmit(values: z.infer<typeof personalSchema>): void {
+    async function onSubmit(values: z.infer<typeof personalSchema>): Promise<void> {
         addPersonalData(values)
+
+        const isPhoneNumberExist = await mutatePhone({ phoneNumber: values.phoneNumber })
+
+        if (isPhoneNumberExist) {
+            return form.setError('phoneNumber', { message: 'Phone number already exist.' })
+        }
 
         if (roleData?.role === 'PRESIDENT') {
             return router.push('/auth/register/club')
@@ -105,7 +113,11 @@ export function PersonalForm(): JSX.Element {
                                                 !date && 'text-muted-foreground'
                                             )}
                                         >
-                                            {date ? format(date, 'PPP') : <span>Start date</span>}
+                                            {date ? (
+                                                format(date, 'PPP')
+                                            ) : (
+                                                <span>Date of birth</span>
+                                            )}
                                             <CalendarIcon className="ml-auto h-4 w-4" />
                                         </Button>
                                     </PopoverTrigger>
@@ -141,7 +153,7 @@ export function PersonalForm(): JSX.Element {
                                         {...field}
                                     />
                                     <button
-                                        className="absolute right-0 top-0 h-9 p-2 text-secondary"
+                                        className="absolute right-0 top-0 h-9 py-2 px-4 text-secondary"
                                         type="button"
                                         onClick={() => setShowPassword((oldState) => !oldState)}
                                     >
@@ -166,7 +178,7 @@ export function PersonalForm(): JSX.Element {
                                         {...field}
                                     />
                                     <button
-                                        className="absolute right-0 top-0 h-9 p-2 text-secondary"
+                                        className="absolute right-0 top-0 h-9 py-2 px-4 text-secondary"
                                         type="button"
                                         onClick={() =>
                                             setShowPasswordConfirm((oldState) => !oldState)
@@ -193,7 +205,8 @@ export function PersonalForm(): JSX.Element {
                     >
                         Previous
                     </Button>
-                    <Button className="bg-accent w-full" type="submit">
+                    <Button className="bg-accent w-full" type="submit" disabled={isPending}>
+                        {isPending && <LoaderCircle size={18} className="animate-spin mr-2" />}
                         Next
                     </Button>
                 </div>

@@ -38,4 +38,13 @@ export const personalSchema = z
             path: ['passwordConfirm'],
         }
     )
+    .refine(
+        (data) => {
+            return data.dateOfBirth <= new Date()
+        },
+        {
+            message: 'Date of birth cannot be in the future.',
+            path: ['dateOfBirth'],
+        }
+    )
 export type PersonalSchema = z.infer<typeof personalSchema>

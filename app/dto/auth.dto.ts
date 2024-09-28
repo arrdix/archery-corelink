@@ -20,5 +20,7 @@ export const loginDto = z.object({
 })
 export type LoginDto = z.infer<typeof loginDto>
 
-export const phoneValidationDto = z.string()
+export const phoneValidationDto = z.object({
+    phoneNumber: z.string(),
+})
 export type PhoneValidationDto = z.infer<typeof phoneValidationDto>
