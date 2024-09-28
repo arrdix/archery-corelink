@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
                 className="bg-accent"
                 size="lg"
                 onClick={() => {
-                    router.push('/auth/login')
+                    router.push('/login')
                 }}
             >
                 Get Started

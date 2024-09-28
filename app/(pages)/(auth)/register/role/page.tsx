@@ -12,7 +12,7 @@ export default function Page(): JSX.Element {
             <RoleForm />
             <p className="text-sm">
                 Already have an account?
-                <Link className="text-accent" href="/auth/login">
+                <Link className="text-accent" href="/login">
                     {' '}
                     Login.
                 </Link>

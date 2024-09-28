@@ -1,9 +1,14 @@
-import bcrypt from 'bcrypt'
+import { compare, genSaltSync, hash } from 'bcrypt'
 
-export function hashPassword(password: string): Promise<string> {
-    const salt = bcrypt.genSaltSync()
-    return bcrypt.hash(password, salt)
+class HashPassword {
+    hash(password: string): Promise<string> {
+        const salt = genSaltSync()
+        return hash(password, salt)
+    }
+
+    compare(password: string, hashedPassword: string): Promise<boolean> {
+        return compare(password, hashedPassword)
+    }
 }
-export function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
-    return bcrypt.compare(password, hashedPassword)
-}
+
+export default new HashPassword()

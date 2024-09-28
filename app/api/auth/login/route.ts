@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { loginDto } from '@/app/dto/auth.dto'
 import prisma from '@/app/lib/prisma'
 import { type UserEntity } from '@/app/types/user.entity'
-import { comparePassword } from '@/app/utils/password-hasher'
+import HashPassword from '@/app/utils/password-hasher'
 import { generateToken } from '@/app/utils/token-generator'
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -22,7 +22,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         if (!requestedUser)
             return NextResponse.json({ error: 'Phone number is incorrect.' }, { status: 400 })
 
-        const isPasswordMatch = await comparePassword(password, requestedUser.password)
+        const isPasswordMatch = await HashPassword.compare(password, requestedUser.password)
 
         if (!isPasswordMatch)
             return NextResponse.json({ error: 'Password is incorrect.' }, { status: 400 })

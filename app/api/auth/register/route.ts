@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { type RegisterDto, registerDto } from '@/app/dto/auth.dto'
 import prisma from '@/app/lib/prisma'
 import { type UserEntity } from '@/app/types/user.entity'
-import { hashPassword } from '@/app/utils/password-hasher'
+import HashPassword from '@/app/utils/password-hasher'
 import { generateToken } from '@/app/utils/token-generator'
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -16,7 +16,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         const newUser: UserEntity = await prisma.user.create({
             data: {
                 ...parsedDto,
-                password: await hashPassword(parsedDto.password),
+                password: await HashPassword.hash(parsedDto.password),
                 photo: 'https://api.dicebear.com/9.x/thumbs/svg?seed=Jack',
             },
         })

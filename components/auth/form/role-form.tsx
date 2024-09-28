@@ -41,7 +41,7 @@ export function RoleForm(): JSX.Element {
     function onSubmit(values: z.infer<typeof roleSchema>): void {
         addRoleData(values)
 
-        return router.push('/auth/register/personal-info')
+        return router.push('/register/personal-info')
     }
 
     return (

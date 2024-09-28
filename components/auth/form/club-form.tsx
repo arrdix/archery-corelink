@@ -44,11 +44,14 @@ export function ClubForm(): JSX.Element {
                 ...clubData,
                 presidentId: newUser.id,
             })
+
+            localStorage.setToken(newUser.token)
+            router.push('/home')
         }
     }
 
     if (!roleData) {
-        router.push('/auth/register/role')
+        router.push('/register/role')
     }
 
     return (
@@ -107,7 +110,7 @@ export function ClubForm(): JSX.Element {
                         type="button"
                         variant="ghost"
                         className="w-full"
-                        onClick={() => router.push('/auth/register/personal-info')}
+                        onClick={() => router.push('/register/personal-info')}
                     >
                         Previous
                     </Button>

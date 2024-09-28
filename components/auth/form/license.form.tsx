@@ -42,6 +42,7 @@ export function LicenseForm(): JSX.Element {
 
     async function onSubmitWithLicense(values: z.infer<typeof licenseSchema>): Promise<void> {
         addLicenseData(values)
+
         if (personalData && roleData) {
             const newUser = await mutateUser({
                 ...roleData,
@@ -53,7 +54,8 @@ export function LicenseForm(): JSX.Element {
                 userId: newUser.id,
             })
 
-            console.log(newUser.token)
+            localStorage.setToken(newUser.token)
+            router.push('/home')
         }
     }
 
@@ -64,12 +66,13 @@ export function LicenseForm(): JSX.Element {
                 ...personalData,
             })
 
-            console.log(newUser.token)
+            localStorage.setToken(newUser.token)
+            router.push('/home')
         }
     }
 
     if (!roleData) {
-        router.push('/auth/register/role')
+        router.push('/register/role')
     }
 
     return (
@@ -205,7 +208,7 @@ export function LicenseForm(): JSX.Element {
                                     type="button"
                                     variant="ghost"
                                     className="w-full"
-                                    onClick={() => router.push('/auth/register/personal-info')}
+                                    onClick={() => router.push('/register/personal-info')}
                                 >
                                     Previous
                                 </Button>
@@ -230,7 +233,7 @@ export function LicenseForm(): JSX.Element {
                         type="button"
                         variant="ghost"
                         className="w-full"
-                        onClick={() => router.push('/auth/register/personal-info')}
+                        onClick={() => router.push('/register/personal-info')}
                     >
                         Previous
                     </Button>

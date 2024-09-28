@@ -49,14 +49,14 @@ export function PersonalForm(): JSX.Element {
         }
 
         if (roleData?.role === 'PRESIDENT') {
-            return router.push('/auth/register/club')
+            return router.push('/register/club')
         }
 
-        return router.push('/auth/register/license')
+        return router.push('/register/license')
     }
 
     if (!roleData) {
-        router.push('/auth/register/role')
+        router.push('/register/role')
     }
 
     return (
@@ -201,7 +201,7 @@ export function PersonalForm(): JSX.Element {
                         type="button"
                         variant="ghost"
                         className="w-full"
-                        onClick={() => router.push('/auth/register/role')}
+                        onClick={() => router.push('/register/role')}
                     >
                         Previous
                     </Button>
