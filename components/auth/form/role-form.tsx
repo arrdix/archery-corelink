@@ -33,8 +33,8 @@ export function RoleForm(): JSX.Element {
     const form = useForm<z.infer<typeof roleSchema>>({
         resolver: zodResolver(roleSchema),
         defaultValues: {
-            role: 'ATHLETE',
-            clubId: undefined,
+            role: roleData?.role ?? 'ATHLETE',
+            clubId: roleData?.clubId ?? '',
         },
     })
 

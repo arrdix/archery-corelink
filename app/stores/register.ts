@@ -8,7 +8,7 @@ interface RegisterStore {
     roleData: RoleSchema | null
     personalData: PersonalSchema | null
     clubData: ClubSchema | null
-    licenseData: LicenseSchema
+    licenseData: LicenseSchema | null
     addRoleData: (data: RoleSchema) => void
     addPersonalData: (data: PersonalSchema) => void
     addClubData: (data: ClubSchema) => void
@@ -19,15 +19,7 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
     roleData: null,
     personalData: null,
     clubData: null,
-    licenseData: {
-        isOwn: false,
-        no: undefined,
-        name: '',
-        level: '',
-        publisher: '',
-        startDate: '',
-        attachment: '',
-    },
+    licenseData: null,
     addRoleData: (data) => set(() => ({ roleData: data })),
     addPersonalData: (data) => set(() => ({ personalData: data })),
     addClubData: (data) => set(() => ({ clubData: data })),

@@ -25,7 +25,7 @@ export const personalSchema = z
         }),
         email: z.string().email({ message: 'Email must be valid.' }),
         phoneNumber: z.string().min(1, { message: 'Phone number must not be empty.' }),
-        dateOfBirth: z.string(),
+        dateOfBirth: z.date(),
         password: z.string().min(8, { message: 'Password must be at least 8 chars.' }),
         passwordConfirm: z.string(),
     })

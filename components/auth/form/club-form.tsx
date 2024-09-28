@@ -22,11 +22,11 @@ export function ClubForm(): JSX.Element {
     const form = useForm<z.infer<typeof clubSchema>>({
         resolver: zodResolver(clubSchema),
         defaultValues: {
-            name: '',
-            logo: '',
-            city: '',
-            province: '',
-            presidentId: '',
+            name: clubData?.name ?? '',
+            logo: clubData?.logo ?? '',
+            city: clubData?.city ?? '',
+            province: clubData?.province ?? '',
+            presidentId: clubData?.presidentId ?? '',
         },
     })
 
@@ -37,8 +37,6 @@ export function ClubForm(): JSX.Element {
             const newUser = await mutateUser({
                 ...roleData,
                 ...personalData,
-                dateOfBirth: new Date(),
-                photo: 'example.jpg',
             })
 
             await mutateClub({

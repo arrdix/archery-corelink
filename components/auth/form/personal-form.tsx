@@ -1,56 +1,50 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { format } from 'date-fns'
+import { CalendarIcon, Eye, EyeOff } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { useUserRegister } from '@/app/network/auth/hooks/user-register'
 import { personalSchema } from '@/app/schemas/auth'
 import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
 
 export function PersonalForm(): JSX.Element {
+    const [date, setDate] = useState<Date | undefined>(undefined)
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
 
     const { roleData, personalData, addPersonalData } = useRegisterStore()
-    const { mutateAsync: mutateUser } = useUserRegister()
     const router = useRouter()
 
     const form = useForm<z.infer<typeof personalSchema>>({
         resolver: zodResolver(personalSchema),
         defaultValues: {
-            name: '',
-            email: '',
-            phoneNumber: '',
-            dateOfBirth: '',
-            password: '',
-            passwordConfirm: '',
+            name: personalData?.name ?? '',
+            email: personalData?.email ?? '',
+            phoneNumber: personalData?.phoneNumber ?? '',
+            dateOfBirth: personalData?.dateOfBirth ?? new Date(),
+            password: personalData?.password ?? '',
+            passwordConfirm: personalData?.passwordConfirm ?? '',
         },
     })
 
-    async function onSubmit(values: z.infer<typeof personalSchema>): Promise<void> {
+    function onSubmit(values: z.infer<typeof personalSchema>): void {
         addPersonalData(values)
 
         if (roleData?.role === 'PRESIDENT') {
             return router.push('/auth/register/club')
         }
 
-        if (personalData && roleData) {
-            const newUser = await mutateUser({
-                ...roleData,
-                ...personalData,
-                dateOfBirth: new Date(),
-                photo: 'example.jpg',
-            })
-
-            return router.push('/auth/register/license')
-        }
+        return router.push('/auth/register/license')
     }
 
     if (!roleData) {
@@ -102,7 +96,33 @@ export function PersonalForm(): JSX.Element {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Input type="text" placeholder="dateOfBirth" {...field} />
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            className={cn(
+                                                'w-full justify-start text-left font-normal',
+                                                !date && 'text-muted-foreground'
+                                            )}
+                                        >
+                                            {date ? format(date, 'PPP') : <span>Start date</span>}
+                                            <CalendarIcon className="ml-auto h-4 w-4" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent align="start" className=" w-auto p-0">
+                                        <Calendar
+                                            mode="single"
+                                            captionLayout="dropdown-buttons"
+                                            selected={date}
+                                            onSelect={(value) => {
+                                                field.onChange(value)
+                                                setDate(value)
+                                            }}
+                                            fromYear={1960}
+                                            toYear={2030}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

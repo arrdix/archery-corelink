@@ -17,6 +17,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             data: {
                 ...parsedDto,
                 password: await hashPassword(parsedDto.password),
+                photo: 'https://api.dicebear.com/9.x/thumbs/svg?seed=Jack',
             },
         })
 
