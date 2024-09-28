@@ -1,12 +1,13 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
+import { useUserLogin } from '@/app/network/auth/hooks/user-login'
 import { loginSchema } from '@/app/schemas/auth'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -14,6 +15,7 @@ import { Input } from '@/components/ui/input'
 
 export default function Page(): JSX.Element {
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const { mutateAsync: mutateLogin, isPending } = useUserLogin()
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -23,8 +25,14 @@ export default function Page(): JSX.Element {
         },
     })
 
-    function onSubmit(values: z.infer<typeof loginSchema>): void {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof loginSchema>): Promise<void> {
+        try {
+            const token = await mutateLogin(values)
+
+            console.log(token)
+        } catch (error) {
+            form.setError('password', { message: 'Phone number or password is incorrect.' })
+        }
     }
 
     return (
@@ -82,7 +90,8 @@ export default function Page(): JSX.Element {
                             Forgot password?
                         </Link>
                     </div>
-                    <Button className="bg-accent w-full" type="submit">
+                    <Button className="bg-accent w-full" type="submit" disabled={isPending}>
+                        {isPending && <LoaderCircle size={18} className="animate-spin mr-2" />}
                         Login
                     </Button>
                     <p className="text-sm">

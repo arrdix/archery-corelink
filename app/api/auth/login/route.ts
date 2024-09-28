@@ -19,11 +19,13 @@ export async function POST(request: Request): Promise<NextResponse> {
             },
         })
 
-        if (!requestedUser) return NextResponse.json({ error: 'Phone number is incorrect.' })
+        if (!requestedUser)
+            return NextResponse.json({ error: 'Phone number is incorrect.' }, { status: 400 })
 
         const isPasswordMatch = await comparePassword(password, requestedUser.password)
 
-        if (!isPasswordMatch) return NextResponse.json({ error: 'Password is incorrect.' })
+        if (!isPasswordMatch)
+            return NextResponse.json({ error: 'Password is incorrect.' }, { status: 400 })
 
         const user: UserEntity = requestedUser
 

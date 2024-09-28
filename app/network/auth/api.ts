@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 
-import type { PhoneValidationDto, RegisterDto } from '@/app/dto/auth.dto'
+import type { LoginDto, PhoneValidationDto, RegisterDto } from '@/app/dto/auth.dto'
 import { api } from '@/app/lib/api'
 import { type UserEntity } from '@/app/types/user.entity'
 
@@ -9,6 +9,12 @@ export class AuthApi {
 
     async userRegister(dto: RegisterDto): Promise<UserEntity> {
         const response = await api.post<UserEntity>('/api/auth/register', dto)
+
+        return response.data
+    }
+
+    async userLogin(dto: LoginDto): Promise<string> {
+        const response = await api.post<string>('/api/auth/login', dto)
 
         return response.data
     }

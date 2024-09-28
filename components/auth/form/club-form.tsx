@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { type z } from 'zod'
@@ -15,7 +16,7 @@ import { Input } from '@/components/ui/input'
 
 export function ClubForm(): JSX.Element {
     const { roleData, personalData, clubData, addClubData } = useRegisterStore()
-    const { mutateAsync: mutateUser } = useUserRegister()
+    const { mutateAsync: mutateUser, isPending } = useUserRegister()
     const { mutateAsync: mutateClub } = useCreateClub()
     const router = useRouter()
 
@@ -110,7 +111,8 @@ export function ClubForm(): JSX.Element {
                     >
                         Previous
                     </Button>
-                    <Button className="bg-accent w-full" type="submit">
+                    <Button className="bg-accent w-full" type="submit" disabled={isPending}>
+                        {isPending && <LoaderCircle size={18} className="animate-spin mr-2" />}
                         Register
                     </Button>
                 </div>
