@@ -1,5 +1,6 @@
-import { userEntity } from '@/app/types/user.entity'
 import { z } from 'zod'
+
+import { userEntity } from '@/types/user.entity'
 
 export const clubEntity = z.object({
     id: z.string(),

@@ -1,10 +1,12 @@
-import { loginDto } from '@/app/dto/auth.dto'
-import prisma from '@/app/lib/prisma'
-import { comparePassword } from '@/app/utils/password-hasher'
 import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import jwt from 'jsonwebtoken'
+
+import { loginDto } from '@/dto/auth.dto'
+import prisma from '@/lib/prisma'
+import { type UserEntity } from '@/types/user.entity'
+import HashPassword from '@/utils/password-hasher'
+import { generateToken } from '@/utils/token-generator'
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -17,30 +19,22 @@ export async function POST(request: Request): Promise<NextResponse> {
             },
         })
 
-        if (!requestedUser) return NextResponse.json({ error: 'Phone number is incorrect.' })
+        if (!requestedUser)
+            return NextResponse.json({ error: 'Phone number is incorrect.' }, { status: 400 })
 
-        const isPasswordMatch = await comparePassword(password, requestedUser.password)
+        const isPasswordMatch = await HashPassword.compare(password, requestedUser.password)
 
-        if (!isPasswordMatch) return NextResponse.json({ error: 'Password is incorrect.' })
+        if (!isPasswordMatch)
+            return NextResponse.json({ error: 'Password is incorrect.' }, { status: 400 })
 
-        const secret = process.env.JWT_SECRET
+        const user: UserEntity = requestedUser
 
-        if (!secret) throw new Error('JWT Secret not found.')
+        delete user.password
+        delete user.dateOfBirth
 
-        const token = jwt.sign(
-            {
-                data: {
-                    id: requestedUser.id,
-                    name: requestedUser.name,
-                    email: requestedUser.email,
-                    photo: requestedUser.photo,
-                },
-            },
-            secret,
-            { expiresIn: '12h' }
-        )
+        const token = generateToken(user)
 
-        return NextResponse.json({ token })
+        return NextResponse.json(token)
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.errors }, { status: 400 })
