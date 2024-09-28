@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
 
-import { type CreateClubDto } from '@/app/dto/club.dto'
-import { api } from '@/app/lib/api'
+import { type CreateClubDto } from '@/dto/club.dto'
+import { api } from '@/lib/api'
 
 export class ClubApi {
     api: AxiosInstance = api

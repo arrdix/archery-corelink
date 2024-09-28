@@ -2,11 +2,11 @@ import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { type RegisterDto, registerDto } from '@/app/dto/auth.dto'
-import prisma from '@/app/lib/prisma'
-import { type UserEntity } from '@/app/types/user.entity'
-import HashPassword from '@/app/utils/password-hasher'
-import { generateToken } from '@/app/utils/token-generator'
+import { type RegisterDto, registerDto } from '@/dto/auth.dto'
+import prisma from '@/lib/prisma'
+import { type UserEntity } from '@/types/user.entity'
+import HashPassword from '@/utils/password-hasher'
+import { generateToken } from '@/utils/token-generator'
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {

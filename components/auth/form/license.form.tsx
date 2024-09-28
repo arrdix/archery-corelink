@@ -8,10 +8,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { useUserRegister } from '@/app/network/auth/hooks/user-register'
-import { useCreateLicense } from '@/app/network/license/hooks/create-license'
-import { licenseSchema } from '@/app/schemas/license'
-import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,6 +15,10 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { useUserRegister } from '@/network/auth/hooks/user-register'
+import { useCreateLicense } from '@/network/license/hooks/create-license'
+import { licenseSchema } from '@/schemas/license'
+import { useRegisterStore } from '@/stores/register'
 
 export function LicenseForm(): JSX.Element {
     const [date, setDate] = useState<Date | undefined>(undefined)

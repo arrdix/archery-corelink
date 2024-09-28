@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken'
 
-import { type UserEntity } from '@/app/types/user.entity'
+import { type UserEntity } from '@/types/user.entity'
 
 export function generateToken(data: UserEntity): string {
     const secret = process.env.JWT_SECRET

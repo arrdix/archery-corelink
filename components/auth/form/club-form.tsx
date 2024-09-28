@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { type z } from 'zod'
 
-import { useUserRegister } from '@/app/network/auth/hooks/user-register'
-import { useCreateClub } from '@/app/network/club/hooks/create-club'
-import { clubSchema } from '@/app/schemas/club'
-import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useUserRegister } from '@/network/auth/hooks/user-register'
+import { useCreateClub } from '@/network/club/hooks/create-club'
+import { clubSchema } from '@/schemas/club'
+import { useRegisterStore } from '@/stores/register'
 
 export function ClubForm(): JSX.Element {
     const { roleData, personalData, clubData, addClubData } = useRegisterStore()

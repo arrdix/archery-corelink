@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { licenseEntity } from '@/app/types/license.entity'
-import { roleEntity } from '@/app/types/role.entity'
+import { licenseEntity } from '@/types/license.entity'
+import { roleEntity } from '@/types/role.entity'
 
 export const userEntity = z.object({
     token: z.string().optional(),

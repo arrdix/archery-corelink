@@ -6,8 +6,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { roleSchema } from '@/app/schemas/auth'
-import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
 import {
     Form,
@@ -24,6 +22,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
+import { roleSchema } from '@/schemas/auth'
+import { useRegisterStore } from '@/stores/register'
 
 export function RoleForm(): JSX.Element {
     const [renderSelectClub, setRenderSelectClub] = useState<boolean>(false)

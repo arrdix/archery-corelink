@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios'
 
-import { type CreateLicenseDto } from '@/app/dto/license.dto'
-import { api } from '@/app/lib/api'
-import { type LicenseEntity } from '@/app/types/license.entity'
+import { type CreateLicenseDto } from '@/dto/license.dto'
+import { api } from '@/lib/api'
+import { type LicenseEntity } from '@/types/license.entity'
 
 export class LicenseApi {
     api: AxiosInstance = api

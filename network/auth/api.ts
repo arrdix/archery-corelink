@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios'
 
-import type { LoginDto, PhoneValidationDto, RegisterDto } from '@/app/dto/auth.dto'
-import { api } from '@/app/lib/api'
-import { type UserEntity } from '@/app/types/user.entity'
+import type { LoginDto, PhoneValidationDto, RegisterDto } from '@/dto/auth.dto'
+import { api } from '@/lib/api'
+import { type UserEntity } from '@/types/user.entity'
 
 export class AuthApi {
     api: AxiosInstance = api

@@ -7,8 +7,8 @@ import {
     createClubDto,
     type UpdateClubDto,
     updateClubDto,
-} from '@/app/dto/club.dto'
-import prisma from '@/app/lib/prisma'
+} from '@/dto/club.dto'
+import prisma from '@/lib/prisma'
 
 export async function GET(): Promise<NextResponse> {
     try {

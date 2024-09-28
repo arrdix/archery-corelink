@@ -7,8 +7,8 @@ import {
     createLicenseDto,
     type UpdateLicenseDto,
     updateLicenseDto,
-} from '@/app/dto/license.dto'
-import prisma from '@/app/lib/prisma'
+} from '@/dto/license.dto'
+import prisma from '@/lib/prisma'
 
 export async function GET(): Promise<NextResponse> {
     try {

@@ -8,12 +8,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { useUserLogin } from '@/app/network/auth/hooks/user-login'
-import { loginSchema } from '@/app/schemas/auth'
-import localStorage from '@/app/utils/local-storage'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useUserLogin } from '@/network/auth/hooks/user-login'
+import { loginSchema } from '@/schemas/auth'
 
 export function LoginForm(): JSX.Element {
     const [showPassword, setShowPassword] = useState<boolean>(false)

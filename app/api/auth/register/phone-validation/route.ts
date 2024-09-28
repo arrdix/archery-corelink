@@ -2,9 +2,9 @@ import { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { type PhoneValidationDto, phoneValidationDto } from '@/app/dto/auth.dto'
-import prisma from '@/app/lib/prisma'
-import { type UserEntity } from '@/app/types/user.entity'
+import { type PhoneValidationDto, phoneValidationDto } from '@/dto/auth.dto'
+import prisma from '@/lib/prisma'
+import { type UserEntity } from '@/types/user.entity'
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {

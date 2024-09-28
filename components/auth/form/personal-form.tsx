@@ -8,15 +8,15 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { usePhoneValidation } from '@/app/network/auth/hooks/validate-phone'
-import { personalSchema } from '@/app/schemas/auth'
-import { useRegisterStore } from '@/app/stores/register'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { usePhoneValidation } from '@/network/auth/hooks/validate-phone'
+import { personalSchema } from '@/schemas/auth'
+import { useRegisterStore } from '@/stores/register'
 
 export function PersonalForm(): JSX.Element {
     const { roleData, personalData, addPersonalData } = useRegisterStore()

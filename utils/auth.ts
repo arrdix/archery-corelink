@@ -1,6 +1,4 @@
-import localStorage from '@/app/utils/local-storage'
-
 export const isAuthenticated = (): boolean => {
-    const token = localStorage.getToken()
+    const token = localStorage.getItem('token')
     return Boolean(token)
 }

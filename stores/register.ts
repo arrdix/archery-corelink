@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 
-import { type PersonalSchema, type RoleSchema } from '@/app/schemas/auth'
-import { type ClubSchema } from '@/app/schemas/club'
-import { type LicenseSchema } from '@/app/schemas/license'
+import { type PersonalSchema, type RoleSchema } from '@/schemas/auth'
+import { type ClubSchema } from '@/schemas/club'
+import { type LicenseSchema } from '@/schemas/license'
 
 interface RegisterStore {
     roleData: RoleSchema | null

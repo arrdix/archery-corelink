@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { roleEntity } from '@/app/types/role.entity'
+import { roleEntity } from '@/types/role.entity'
 
 export const loginSchema = z.object({
     phoneNumber: z
